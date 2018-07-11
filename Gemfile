@@ -25,8 +25,10 @@ group :development do
 end
 
 gem 'activeadmin'
+gem 'bootstrap'
 gem 'coffee-rails'
 gem 'devise'
+gem 'nokogiri'
 gem 'pry-rails'
 gem 'ridgepole'
 gem 'slim-rails'

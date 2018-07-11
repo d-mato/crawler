@@ -1,0 +1,23 @@
+h1 Listing crawler_jobs
+
+table.table
+  thead
+    tr
+      th ID
+      th URL
+      th Status
+      th Contents
+      th Pages
+      th Created at
+
+  tbody
+    - @crawler_jobs.each do |crawler_job|
+      tr
+        td = crawler_job.id
+        td = link_to crawler_job.url.truncate(40), crawler_job.url, title: crawler_job.url, target: '_blank'
+        td = crawler_job.status
+        td = "#{crawler_job.current_count} / #{crawler_job.total_count}"
+        td = "#{crawler_job.current_page} / #{crawler_job.total_pages}"
+        td = crawler_job.created_at
+
+= link_to 'New Crawler job', new_crawler_job_path

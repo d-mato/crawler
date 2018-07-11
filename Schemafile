@@ -1,7 +1,7 @@
 create_table :users do |t|
-  t.string :email,              null: false
+  t.string :email, null: false
   t.string :encrypted_password, null: false, default: ''
-  t.integer  :sign_in_count, default: 0, null: false
+  t.integer  :sign_in_count, null: false, default: 0
   t.datetime :current_sign_in_at
   t.datetime :last_sign_in_at
   t.string   :current_sign_in_ip
@@ -9,4 +9,24 @@ create_table :users do |t|
   t.timestamps null: false
 
   t.index :email, unique: true
+end
+
+create_table :crawler_jobs do |t|
+  t.integer :user_id, null: false
+  t.string :site, null: false
+  t.string :status, null: false
+  t.text :url, null: false
+  t.integer :total_count, null: false, default: 0
+  t.integer :total_pages, null: false, default: 0
+  t.integer :current_count, null: false, default: 0
+  t.integer :current_page, null: false, default: 0
+  t.text :error_message, null: false, default: ''
+  t.timestamps null: false
+end
+
+create_table :web_pages do |t|
+  t.integer :crawler_job_id, null: false
+  t.text :url, null: false
+  t.text :body, null: false
+  t.timestamps null: false
 end
