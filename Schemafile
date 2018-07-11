@@ -27,6 +27,7 @@ end
 create_table :web_pages do |t|
   t.integer :crawler_job_id, null: false
   t.text :url, null: false
-  t.text :body, null: false
+  t.text :body, null: false, default: ''
+  t.text :error_message, null: false, default: ''
   t.timestamps null: false
 end

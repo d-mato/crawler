@@ -7,4 +7,35 @@ class CrawlerJob < ApplicationRecord
   before_create do
     self.status = :waiting
   end
+
+  def crawler_klass
+    "crawler/#{site}".classify.constantize
+  end
+
+  def execute_crawling
+    running!
+
+    crawler = crawler_klass.new
+    list_page_url = url
+    loop do
+      data = crawler.parse_list(list_page_url)
+      data[:detail_page_urls].each do |url|
+        web_pages.find_or_create_by!(url: url)
+      end
+      list_page_url = data[:next_page_url]
+      break unless list_page_url
+      sleep 3
+    end
+
+    update!(total_count: web_pages.count, current_count: 0)
+    web_pages.each do |web_page|
+      web_page.fetch_contents
+      increment! :current_count
+      sleep 3
+    end
+
+    completed!
+  rescue => e
+    update!(error_message: e.message)
+  end
 end

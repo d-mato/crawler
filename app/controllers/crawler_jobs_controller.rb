@@ -14,7 +14,7 @@ class CrawlerJobsController < ApplicationController
       redirect_to crawler_jobs_path and return
     end
 
-    crawler = Crawler::Tabelog.new
+    crawler = @crawler_job.crawler_klass.new
     data = crawler.parse_list(@crawler_job.url)
     @target_title = data[:title]
     @target_total_count = data[:total_count]
