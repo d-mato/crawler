@@ -17,10 +17,10 @@ create_table :crawler_jobs do |t|
   t.string :status, null: false
   t.text :url, null: false
   t.integer :total_count, null: false, default: 0
-  t.integer :total_pages, null: false, default: 0
   t.integer :current_count, null: false, default: 0
-  t.integer :current_page, null: false, default: 0
   t.text :error_message, null: false, default: ''
+  t.datetime :started_at
+  t.datetime :completed_at
   t.timestamps null: false
 end
 

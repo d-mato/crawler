@@ -14,6 +14,7 @@ class CrawlerJob < ApplicationRecord
 
   def execute_crawling
     running!
+    touch :started_at
 
     crawler = crawler_klass.new
     list_page_url = url
@@ -35,7 +36,9 @@ class CrawlerJob < ApplicationRecord
     end
 
     completed!
+    touch :completed_at
   rescue => e
+    failed!
     update!(error_message: e.message)
   end
 end
