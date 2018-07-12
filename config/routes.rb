@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self)
-  devise_for :users
+  # ActiveAdmin.routes(self)
+  # devise_for :users
 
   root 'crawler_jobs#index'
 

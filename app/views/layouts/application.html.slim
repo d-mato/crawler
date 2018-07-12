@@ -11,12 +11,12 @@ html
   body
     nav.navbar.navbar-dark.bg-dark.flex-md-nowrap.p-0.shadow
       = link_to 'Crawler', root_path, class: 'navbar-brand col-sm-3 col-md-2 mr-0'
-      ul.navbar-nav.px-3
-        li.nav-item.text-nowrap
-          - if signed_in?
-            = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link'
-          - else
-            = link_to 'Sign in', new_user_session_path, class: 'nav-link'
+      / ul.navbar-nav.px-3
+      /   li.nav-item.text-nowrap
+      /     - if signed_in?
+      /       = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link'
+      /     - else
+      /       = link_to 'Sign in', new_user_session_path, class: 'nav-link'
 
     main.container.py-3
       - if notice
