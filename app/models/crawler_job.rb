@@ -1,6 +1,6 @@
 class CrawlerJob < ApplicationRecord
   belongs_to :user
-  has_many :web_pages
+  has_many :web_pages, dependent: :destroy
 
   enum status: %w[waiting running failed completed].map { |v| [v, v] }.to_h
 
@@ -24,14 +24,14 @@ class CrawlerJob < ApplicationRecord
       end
       list_page_url = data[:next_page_url]
       break unless list_page_url
-      sleep 3
+      sleep 10
     end
 
     update!(total_count: web_pages.count, current_count: 0)
     web_pages.each do |web_page|
       web_page.fetch_contents
       increment! :current_count
-      sleep 3
+      sleep 10
     end
 
     completed!

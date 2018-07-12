@@ -5,12 +5,15 @@ h2 New Job
     = f.label :site
     = f.select :site, %w(tabelog), {}, class: 'form-control'
   .form-group
+    = f.label :name
+    = f.text_field :name, required: true, class: 'form-control'
+  .form-group
     = f.label :url
     = f.text_field :url, required: true, class: 'form-control'
 
   - if @confirm
-    p Title: #{@crawler_job.page_title}
-    p Total Page Count: #{@crawler_job.total_count}
+    p Page title: #{@crawler_job.page_title}
+    p Total page count: #{@crawler_job.total_count}
     = f.hidden_field :page_title
     = f.hidden_field :total_count
     = hidden_field_tag :confirm, @confirm

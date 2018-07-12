@@ -6,5 +6,6 @@ Rails.application.routes.draw do
 
   resources :crawler_jobs, only: %i(index new create destroy) do
     get :export, on: :member
+    post :execute, on: :member
   end
 end

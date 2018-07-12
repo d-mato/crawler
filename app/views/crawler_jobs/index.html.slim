@@ -5,7 +5,8 @@
 table.table.table-sm.table-striped
   thead
     tr
-      th Target
+      th Name
+      th URL
       th Status
       th Contents
       th Created at
@@ -17,12 +18,14 @@ table.table.table-sm.table-striped
   tbody
     - @crawler_jobs.each do |crawler_job|
       tr
-        td = link_to crawler_job.page_title.truncate(20), crawler_job.url, title: crawler_job.page_title, target: '_blank', rel: 'noreferrer'
+        td = crawler_job.name
+        td = link_to crawler_job.url.truncate(20), crawler_job.url, title: crawler_job.url, target: '_blank', rel: 'noreferrer'
         td = crawler_job.status_label
         td = "#{crawler_job.current_count} / #{crawler_job.total_count}"
         td = crawler_job.created_at.strftime('%F %H:%M')
         td = crawler_job.started_at&.strftime('%F %H:%M')
         td = crawler_job.completed_at&.strftime('%F %H:%M')
         td = link_to 'CSV', [:export, crawler_job], data: { confirm: "CSVファイルをダウンロードします\n※時間がかかる場合があります" } if crawler_job.completed?
+        td = link_to 'Start', [:execute, crawler_job], method: :post, data: { confirm: 'クローリングを開始します' }, class: 'btn btn-sm btn-info' if crawler_job.waiting?
         td = link_to 'x', crawler_job, method: :delete, data: { confirm: '削除します' }, class: 'text-danger'
 
