@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable, :trackable, :validatable
+  devise :database_authenticatable, :trackable, :validatable
 
   has_many :crawler_jobs
 end

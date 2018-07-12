@@ -8,15 +8,14 @@ class CrawlerJob < ApplicationRecord
     self.status = :waiting
   end
 
-  def crawler_klass
-    "crawler/#{site}".classify.constantize
+  def crawler
+    @crawler ||= "crawler/#{site}".classify.constantize.new
   end
 
   def execute_crawling
     running!
     touch :started_at
 
-    crawler = crawler_klass.new
     list_page_url = url
     loop do
       data = crawler.parse_list(list_page_url)
@@ -40,5 +39,21 @@ class CrawlerJob < ApplicationRecord
   rescue => e
     failed!
     update!(error_message: e.message)
+  end
+
+  def export_csv
+    CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+      web_pages.each.with_index do |web_page, index|
+        result = { url: web_page.url }
+        begin
+          result.merge! crawler.parse_detail(web_page.body)
+          # header
+          csv << result.keys if index.zero?
+
+          csv << result.values
+        rescue
+        end
+      end
+    end
   end
 end

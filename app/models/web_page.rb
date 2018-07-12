@@ -3,6 +3,7 @@ class WebPage < ApplicationRecord
 
   def fetch_contents
     update!(body: open(url).read)
+    touch :fetched_at
   rescue => e
     update!(error_message: e.message)
   end

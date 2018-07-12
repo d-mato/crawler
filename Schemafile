@@ -16,6 +16,7 @@ create_table :crawler_jobs do |t|
   t.string :site, null: false
   t.string :status, null: false
   t.text :url, null: false
+  t.text :page_title, null: false, default: ''
   t.integer :total_count, null: false, default: 0
   t.integer :current_count, null: false, default: 0
   t.text :error_message, null: false, default: ''
@@ -29,5 +30,6 @@ create_table :web_pages do |t|
   t.text :url, null: false
   t.text :body, null: false, default: ''
   t.text :error_message, null: false, default: ''
+  t.datetime :fetched_at
   t.timestamps null: false
 end
