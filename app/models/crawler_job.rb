@@ -1,5 +1,7 @@
+require 'csv'
+
 class CrawlerJob < ApplicationRecord
-  belongs_to :user
+  # belongs_to :user
   has_many :web_pages, dependent: :destroy
 
   enum status: %w[waiting running failed completed].map { |v| [v, v] }.to_h

@@ -2,9 +2,8 @@ require 'open-uri'
 require 'nokogiri'
 
 class Crawler::Tabelog
-  def parse_list(url)
-    html = open(url)
-    doc = Nokogiri.parse(html)
+  def parse_list(html_or_url)
+    doc = Nokogiri.parse(detect_html(html_or_url))
     {
       title: doc.title,
       total_count: doc.at('.list-condition__count').text.to_i,
@@ -14,8 +13,8 @@ class Crawler::Tabelog
     }
   end
 
-  def parse_detail(body)
-    doc = Nokogiri.parse(body)
+  def parse_detail(html_or_url)
+    doc = Nokogiri.parse(detect_html(html_or_url))
     json = JSON.parse(doc.at('script[type="application/ld+json"]').text)
     {
       name: json['name'],
@@ -28,7 +27,15 @@ class Crawler::Tabelog
       priceRange: json['priceRange'],
       servesCuisine: json['servesCuisine'],
       ratingCount: json.dig('aggregateRating', 'ratingCount'),
-      ratingValue: json.dig('aggregateRating', 'ratingValue')
+      ratingValue: json.dig('aggregateRating', 'ratingValue'),
+      seatCount: nil,
+      regularHoliday: nil,
     }
+  end
+
+  private
+
+  def detect_html(html_or_url)
+    html_or_url.match?(/\A#{URI::regexp(%w(http https))}\z/) ? open(html_or_url).read : html_or_url
   end
 end

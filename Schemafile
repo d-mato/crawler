@@ -33,4 +33,6 @@ create_table :web_pages do |t|
   t.text :error_message, null: false, default: ''
   t.datetime :fetched_at
   t.timestamps null: false
+
+  t.index [:crawler_jobs, :url], unique: true
 end

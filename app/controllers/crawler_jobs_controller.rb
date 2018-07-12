@@ -10,7 +10,7 @@ class CrawlerJobsController < ApplicationController
   end
 
   def confirm
-    @crawler_job = CrawlerJob.build(crawler_job_params)
+    @crawler_job = CrawlerJob.new(crawler_job_params)
     if @crawler_job.valid? && @crawler_job.fetch_list_specs
       render :confirm and return
     end
@@ -20,7 +20,7 @@ class CrawlerJobsController < ApplicationController
   end
 
   def create
-    @crawler_job = CrawlerJob.build(crawler_job_params)
+    @crawler_job = CrawlerJob.new(crawler_job_params)
     @crawler_job.save!
     redirect_to crawler_jobs_path, notice: 'ジョブを作成しました'
   end
