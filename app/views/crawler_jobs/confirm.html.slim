@@ -1,0 +1,17 @@
+h2 New Job
+
+= form_for @crawler_job, html: { style: 'max-width: 400px;' } do |f|
+  p Site: #{@crawler_job.site}
+  p Name: #{@crawler_job.name}
+  p URL: #{@crawler_job.url}
+  p Page title: #{@crawler_job.page_title}
+  p Total page count: #{@crawler_job.total_count}
+
+  = f.hidden_field :site
+  = f.hidden_field :name
+  = f.hidden_field :url
+  = f.hidden_field :page_title
+  = f.hidden_field :total_count
+  = f.submit 'Create', class: 'btn btn-primary'
+
+= link_to 'Back', crawler_jobs_path

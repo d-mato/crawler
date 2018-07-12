@@ -8,8 +8,29 @@ class CrawlerJob < ApplicationRecord
     self.status = :waiting
   end
 
+  before_destroy do
+    if running?
+      errors[:base] << '実行中のジョブは削除できません'
+      throw :abort
+    end
+  end
+
+  validates :site, presence: true
+  validates :name, presence: true
+  validates :url, presence: true, format: /\A#{URI::regexp(%w(http https))}\z/
+
   def crawler
     @crawler ||= "crawler/#{site}".classify.constantize.new
+  end
+
+  def fetch_list_specs
+    data = crawler.parse_list(url)
+    self.page_title = data[:title]
+    self.total_count = data[:total_count]
+    true
+  rescue
+    errors[:url] << 'は無効です'
+    false
   end
 
   def execute_crawling

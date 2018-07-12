@@ -9,24 +9,20 @@ class CrawlerJobsController < ApplicationController
     @crawler_job = CrawlerJob.new
   end
 
+  def confirm
+    @crawler_job = current_user.crawler_jobs.build(crawler_job_params)
+    if @crawler_job.valid? && @crawler_job.fetch_list_specs
+      render :confirm and return
+    end
+
+    flash.now[:alert] = @crawler_job.errors.full_messages.join("\n")
+    render :new
+  end
+
   def create
     @crawler_job = current_user.crawler_jobs.build(crawler_job_params)
-    if params[:confirm]
-      @crawler_job.save!
-      redirect_to crawler_jobs_path, notice: 'ジョブを作成しました' and return
-    end
-
-    begin
-      data = @crawler_job.crawler.parse_list(@crawler_job.url)
-    rescue
-      flash.now[:alert] = '無効なURLです'
-      render :new and return
-    end
-
-    @crawler_job.page_title = data[:title]
-    @crawler_job.total_count = data[:total_count]
-    @confirm = true
-    render :new
+    @crawler_job.save!
+    redirect_to crawler_jobs_path, notice: 'ジョブを作成しました'
   end
 
   def export
@@ -48,12 +44,14 @@ class CrawlerJobsController < ApplicationController
         { alert: '実行中のジョブがあるため開始できません' }
       end
 
-    redirect_to crawler_jobs_path, message and return
+    redirect_to crawler_jobs_path, message
   end
 
   def destroy
-    @crawler_job.destroy!
-    redirect_to crawler_jobs_path, notice: '削除しました' and return
+    if @crawler_job.destroy
+      redirect_to crawler_jobs_path, notice: '削除しました' and return
+    end
+    redirect_to crawler_jobs_path, alert: @crawler_job.errors.full_messages.join("\n")
   end
 
   private

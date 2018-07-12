@@ -1,6 +1,6 @@
 h2 New Job
 
-= form_for @crawler_job, html: { style: 'max-width: 400px;' } do |f|
+= form_for [:confirm, @crawler_job], method: :post, html: { style: 'max-width: 400px;' } do |f|
   .form-group
     = f.label :site
     = f.select :site, %w(tabelog), {}, class: 'form-control'
@@ -11,14 +11,6 @@ h2 New Job
     = f.label :url
     = f.text_field :url, required: true, class: 'form-control'
 
-  - if @confirm
-    p Page title: #{@crawler_job.page_title}
-    p Total page count: #{@crawler_job.total_count}
-    = f.hidden_field :page_title
-    = f.hidden_field :total_count
-    = hidden_field_tag :confirm, @confirm
-    = f.submit 'Create', class: 'btn btn-primary'
-  - else
-    = f.submit 'Confirm', class: 'btn btn-light'
+  = f.submit 'Confirm', class: 'btn btn-light'
 
 = link_to 'Back', crawler_jobs_path
