@@ -30,8 +30,8 @@ class CrawlerJob < ApplicationRecord
     self.page_title = data[:title]
     self.total_count = data[:total_count]
     true
-  rescue
-    errors[:url] << 'は無効です'
+  rescue => e
+    errors[:url] << "は無効です: #{e.message}"
     false
   end
 
