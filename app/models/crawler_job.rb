@@ -6,6 +6,10 @@ class CrawlerJob < ApplicationRecord
 
   enum status: %w[waiting running failed completed].map { |v| [v, v] }.to_h
 
+  before_validation do
+    self.name = name.gsub(/\s|　/, '_').strip
+  end
+
   before_create do
     self.status = :waiting
   end
