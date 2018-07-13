@@ -24,6 +24,7 @@ group :development do
 
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv'
+  gem 'capistrano-sidekiq'
   gem 'capistrano3-puma'
   gem 'capistrano3-ridgepole'
 end
