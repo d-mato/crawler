@@ -1,5 +1,5 @@
 class CrawlerJobsController < ApplicationController
-  before_action :set_crawler_job, only: %i(export execute destroy)
+  before_action :set_crawler_job, only: %i(export cancel restart destroy)
 
   def index
     @crawler_jobs = CrawlerJob.order(created_at: :desc)
@@ -22,6 +22,7 @@ class CrawlerJobsController < ApplicationController
   def create
     @crawler_job = CrawlerJob.new(crawler_job_params)
     @crawler_job.save!
+    ExecuteCrawlerJob.perform_later(@crawler_job.id)
     redirect_to crawler_jobs_path, notice: 'ジョブを作成しました'
   end
 
@@ -30,21 +31,15 @@ class CrawlerJobsController < ApplicationController
     send_data @crawler_job.export_csv, filename: filename, type: 'text/csv; charset=shift_jis'
   end
 
-  def execute
-    message =
-      if CrawlerJob.running.count.zero?
-        @crawler_job.running!
-        Thread.start do
-          Thread.current["connection"] = ActiveRecord::Base.connection_pool.checkout()
-          @crawler_job.execute_crawling
-          ActiveRecord::Base.connection_pool.checkin(Thread.current["connection"])
-        end
-        { notice: 'クローリングを開始しました' }
-      else
-        { alert: '実行中のジョブがあるため開始できません' }
-      end
+  def cancel
+    @crawler_job.canceled!
+    redirect_to crawler_jobs_path, { notice: 'ジョブをキャンセルしました' }
+  end
 
-    redirect_to crawler_jobs_path, message
+  def restart
+    @crawler_job.waiting!
+    ExecuteCrawlerJob.perform_later(@crawler_job.id)
+    redirect_to crawler_jobs_path, notice: 'ジョブを再登録しました'
   end
 
   def destroy

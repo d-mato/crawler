@@ -4,7 +4,7 @@ class CrawlerJob < ApplicationRecord
   # belongs_to :user
   has_many :web_pages, dependent: :destroy
 
-  enum status: %w[waiting running failed completed].map { |v| [v, v] }.to_h
+  enum status: %w[waiting running canceled failed completed].map { |v| [v, v] }.to_h
 
   before_validation do
     self.name = name.gsub(/\s|　/, '_').strip
@@ -39,6 +39,10 @@ class CrawlerJob < ApplicationRecord
     false
   end
 
+  def current_count
+    web_pages.fetched.count
+  end
+
   def execute_crawling
     running!
     touch :started_at
@@ -54,10 +58,12 @@ class CrawlerJob < ApplicationRecord
       sleep 10
     end
 
-    update!(total_count: web_pages.count, current_count: 0)
+    update!(total_count: web_pages.count)
     web_pages.each do |web_page|
+      return if reload.canceled?
+      next if web_page.fetched?
+
       web_page.fetch_contents
-      increment! :current_count
       sleep 10
     end
 
