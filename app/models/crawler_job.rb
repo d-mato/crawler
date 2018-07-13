@@ -70,12 +70,15 @@ class CrawlerJob < ApplicationRecord
 
   def export_csv
     CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+      header = false
       web_pages.each.with_index do |web_page, index|
         result = { url: web_page.url }
         begin
           result.merge! crawler.parse_detail(web_page.body)
-          # header
-          csv << result.keys if index.zero?
+          unless header
+            csv << result.keys
+            header = true
+          end
 
           csv << result.values
         rescue
