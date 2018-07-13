@@ -28,8 +28,8 @@ class Crawler::Tabelog
       servesCuisine: json['servesCuisine'],
       ratingCount: json.dig('aggregateRating', 'ratingCount'),
       ratingValue: json.dig('aggregateRating', 'ratingValue'),
-      seatCount: nil,
-      regularHoliday: nil,
+      seatCount: doc.css('th').find { |el| el.text.strip == '席数' }&.next_element&.text&.slice(/(\d+)席/, 1),
+      regularHoliday: doc.at('#short-comment')&.text.strip,
     }
   end
 
