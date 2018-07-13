@@ -25,7 +25,11 @@ table.table.table-sm.table-striped
         td = "#{crawler_job.current_count} / #{crawler_job.total_count}"
         td = crawler_job.created_at.strftime('%F %H:%M')
         td = crawler_job.started_at&.strftime('%F %H:%M')
-        td = crawler_job.completed_at&.strftime('%F %H:%M')
+        td
+          - if crawler_job.completed?
+            = crawler_job.completed_at&.strftime('%F %H:%M')
+          - if crawler_job.running?
+            = crawler_job.remaining_time
         td = link_to 'CSV', [:export, crawler_job], data: { confirm: "CSVファイルをダウンロードします\n※時間がかかる場合があります" } if crawler_job.completed?
         td
           = link_to 'Cancel', [:cancel, crawler_job], method: :delete, data: { confirm: 'ジョブをキャンセルします' }, class: 'btn btn-sm btn-warning' if crawler_job.running?

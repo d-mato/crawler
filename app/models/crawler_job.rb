@@ -1,6 +1,8 @@
 require 'csv'
 
 class CrawlerJob < ApplicationRecord
+  WAIT_TIME = 10
+
   # belongs_to :user
   has_many :web_pages, dependent: :destroy
 
@@ -55,7 +57,7 @@ class CrawlerJob < ApplicationRecord
       end
       list_page_url = data[:next_page_url]
       break unless list_page_url
-      sleep 10
+      sleep WAIT_TIME
     end
 
     update!(total_count: web_pages.count)
@@ -64,7 +66,7 @@ class CrawlerJob < ApplicationRecord
       next if web_page.fetched?
 
       web_page.fetch_contents
-      sleep 10
+      sleep WAIT_TIME
     end
 
     completed!
