@@ -51,6 +51,7 @@ class CrawlerJob < ApplicationRecord
 
     list_page_url = url
     loop do
+      return if reload.canceled?
       data = crawler.parse_list(list_page_url)
       data[:detail_page_urls].each do |url|
         web_pages.find_or_create_by!(url: url)
