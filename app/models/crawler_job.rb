@@ -27,6 +27,11 @@ class CrawlerJob < ApplicationRecord
   validates :site, presence: true
   validates :name, presence: true
   validates :url, presence: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validate do
+    crawler
+  rescue NameError => e
+    errors[:site] << e.message
+  end
 
   def crawler
     @crawler ||= "crawler/#{site}".classify.constantize.new
@@ -69,6 +74,7 @@ class CrawlerJob < ApplicationRecord
     completed!
     touch :completed_at
   rescue => e
+    binding.pry
     failed!
     update!(error_message: e.message)
   end
