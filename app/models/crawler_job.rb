@@ -51,23 +51,18 @@ class CrawlerJob < ApplicationRecord
 
     list_page_url = url
     loop do
-      return if reload.canceled?
       data = crawler.parse_list(list_page_url)
+      update!(total_count: data[:total_count])
       data[:detail_page_urls].each do |url|
-        web_pages.find_or_create_by!(url: url)
+        return if reload.canceled? # statusがcanceledなら停止
+        web_page = web_pages.find_or_create_by!(url: url)
+        next if web_page.fetched?
+
+        web_page.fetch_contents
+        sleep WAIT_TIME
       end
       list_page_url = data[:next_page_url]
       break unless list_page_url
-      sleep WAIT_TIME
-    end
-
-    update!(total_count: web_pages.count)
-    web_pages.each do |web_page|
-      return if reload.canceled?
-      next if web_page.fetched?
-
-      web_page.fetch_contents
-      sleep WAIT_TIME
     end
 
     completed!
