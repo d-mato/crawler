@@ -1,6 +1,6 @@
 .d-flex.justify-content-between.align-items-end.mb-3
   h2 Jobs
-  = link_to 'New job', new_crawler_job_path, class: 'btn btn-outline-primary btn-sm'
+  = link_to fa_icon('plus-circle', text: 'New job'), new_crawler_job_path, class: 'btn btn-outline-primary btn-sm'
 
 table.table.table-sm.table-striped
   thead
@@ -30,9 +30,10 @@ table.table.table-sm.table-striped
             = crawler_job.completed_at&.strftime('%F %H:%M')
           - if crawler_job.running?
             = crawler_job.remaining_time
-        td = link_to 'CSV', [:export, crawler_job], data: { confirm: "CSVファイルをダウンロードします\n※時間がかかる場合があります" } if crawler_job.completed?
+        td = link_to fa_icon('file'), [:export, crawler_job], data: { confirm: "CSVファイルをダウンロードします\n※時間がかかる場合があります" }, title: 'Download CSV' if crawler_job.completed?
+        td = link_to fa_icon('repeat'), [:restart, crawler_job], method: :post, data: { confirm: 'キャンセル済みのジョブを再開します' }, title: 'Restart' if crawler_job.canceled? || crawler_job.failed?
         td
-          = link_to 'Cancel', [:cancel, crawler_job], method: :delete, data: { confirm: 'ジョブをキャンセルします' }, class: 'btn btn-sm btn-warning' if crawler_job.running?
-          = link_to 'Restart', [:restart, crawler_job], method: :post, class: 'btn btn-sm btn-warning' if crawler_job.canceled? || crawler_job.failed?
-        td = link_to 'x', crawler_job, method: :delete, data: { confirm: '削除します' }, class: 'text-danger'
-
+          - if crawler_job.running?
+            = link_to fa_icon('ban'), [:cancel, crawler_job], method: :delete, data: { confirm: 'ジョブをキャンセルします' }, class: 'text-warning', title: 'Cancel'
+          - else crawler_job.running?
+            = link_to fa_icon('times'), crawler_job, method: :delete, data: { confirm: '削除します' }, class: 'text-danger', title: 'Delete'
