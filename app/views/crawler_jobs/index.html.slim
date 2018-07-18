@@ -9,7 +9,6 @@ table.table.table-sm.table-striped
       th URL
       th Status
       th Contents
-      th Created at
       th Started at
       th Completed at
       th
@@ -23,7 +22,6 @@ table.table.table-sm.table-striped
         td = link_to crawler_job.url.truncate(20), crawler_job.url, title: crawler_job.url, target: '_blank', rel: 'noreferrer'
         td = crawler_job.status_label title: crawler_job.error_message
         td = "#{crawler_job.current_count} / #{crawler_job.total_count}"
-        td = crawler_job.created_at.strftime('%F %H:%M')
         td = crawler_job.started_at&.strftime('%F %H:%M')
         td
           - if crawler_job.completed?
