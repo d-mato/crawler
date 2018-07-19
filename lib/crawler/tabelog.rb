@@ -28,6 +28,9 @@ class Crawler::Tabelog
       ratingValue: json.dig('aggregateRating', 'ratingValue'),
       seatCount: doc.css('th').find { |el| el.text.strip == '席数' }&.next_element&.text&.slice(/(\d+)席/, 1),
       regularHoliday: doc.at('#short-comment')&.text.strip,
+      openingHours: doc.css('th').find { |el| el.text.strip == '営業時間' }&.next_element&.text&.strip,
+      openingDay: doc.at('.rstinfo-opened-date')&.text&.strip,
+      lunchTimeOpened: doc.css('i').find { |el| el.text.strip == '昼の予算' }.present?
     }
   end
 end
