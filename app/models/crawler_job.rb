@@ -47,10 +47,6 @@ class CrawlerJob < ApplicationRecord
     false
   end
 
-  def current_count
-    fetched_web_pages.loaded? ? fetched_web_pages.size : fetched_web_pages.count
-  end
-
   def execute_crawling
     running!
     touch :started_at

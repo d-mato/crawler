@@ -3,6 +3,10 @@ class WebPage < ApplicationRecord
 
   scope :fetched, -> { where.not(fetched_at: nil, body: '') }
 
+  after_commit do
+    crawler_job.update!(current_count: crawler_job.web_pages.count)
+  end
+
   def fetched?
     fetched_at? && body.present?
   end
