@@ -5,6 +5,7 @@ class CrawlerJob < ApplicationRecord
 
   # belongs_to :user
   has_many :web_pages, dependent: :destroy
+  has_many :fetched_web_pages, -> { fetched }, class_name: 'WebPage'
 
   enum status: %w[waiting running canceled failed completed].map { |v| [v, v] }.to_h
 
@@ -26,6 +27,11 @@ class CrawlerJob < ApplicationRecord
   validates :site, presence: true
   validates :name, presence: true
   validates :url, presence: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validate do
+    crawler
+  rescue NameError => e
+    errors[:site] << e.message
+  end
 
   def crawler
     @crawler ||= "crawler/#{site}".classify.constantize.new
@@ -42,7 +48,7 @@ class CrawlerJob < ApplicationRecord
   end
 
   def current_count
-    web_pages.fetched.count
+    fetched_web_pages.loaded? ? fetched_web_pages.size : fetched_web_pages.count
   end
 
   def execute_crawling
@@ -68,6 +74,7 @@ class CrawlerJob < ApplicationRecord
     completed!
     touch :completed_at
   rescue => e
+    binding.pry
     failed!
     update!(error_message: e.message)
   end

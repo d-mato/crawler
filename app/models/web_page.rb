@@ -8,7 +8,8 @@ class WebPage < ApplicationRecord
   end
 
   def fetch_contents
-    update!(body: open(url).read)
+    body = open(url).read.force_encoding('UTF-8')
+    update!(body: body)
     touch :fetched_at
   rescue => e
     update!(error_message: e.message)
