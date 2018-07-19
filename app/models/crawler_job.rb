@@ -5,7 +5,6 @@ class CrawlerJob < ApplicationRecord
 
   # belongs_to :user
   has_many :web_pages, dependent: :destroy
-  has_many :fetched_web_pages, -> { fetched }, class_name: 'WebPage'
 
   enum status: %w[waiting running canceled failed completed].map { |v| [v, v] }.to_h
 
@@ -45,6 +44,10 @@ class CrawlerJob < ApplicationRecord
   rescue => e
     errors[:url] << "は無効です: #{e.message}"
     false
+  end
+
+  def current_count
+    web_pages.loaded? ? web_pages.size : web_pages.count
   end
 
   def execute_crawling
