@@ -33,5 +33,6 @@ create_table :web_pages do |t|
   t.datetime :fetched_at
   t.timestamps null: false
 
+  t.index :crawler_job_id
   t.index [:crawler_job_id, :url], unique: true
 end
