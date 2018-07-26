@@ -73,7 +73,6 @@ class CrawlerJob < ApplicationRecord
     completed!
     touch :completed_at
   rescue => e
-    binding.pry
     failed!
     update!(error_message: e.message)
   end
