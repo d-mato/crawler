@@ -25,7 +25,10 @@ class CrawlerJob < ApplicationRecord
 
   validates :site, presence: true
   validates :name, presence: true
-  validates :url, presence: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validates :url, format: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true
+  validate do
+    errors[:base] << 'URLとURLリストのどちらかを入力してください' if url.blank? && url_list.blank?
+  end
   validate do
     crawler
   rescue NameError => e
@@ -37,10 +40,17 @@ class CrawlerJob < ApplicationRecord
   end
 
   def fetch_list_specs
-    data = crawler.parse_list(url)
-    self.page_title = data[:title]
-    self.total_count = data[:total_count]
-    true
+    if url.present?
+      data = crawler.parse_list(url)
+      self.page_title = data[:title]
+      self.total_count = data[:total_count]
+      return true
+    elsif url_list.present?
+      self.page_title = ''
+      self.total_count = url_list.split.size
+      return true
+    end
+    false
   rescue => e
     errors[:url] << "は無効です: #{e.message}"
     false
@@ -54,26 +64,24 @@ class CrawlerJob < ApplicationRecord
     running!
     touch :started_at
 
-    list_page_url = url
-    loop do
-      data = crawler.parse_list(list_page_url)
-      update!(total_count: data[:total_count])
-      data[:detail_page_urls].each do |url|
-        return if reload.canceled? # statusがcanceledなら停止
-        web_page = web_pages.find_or_create_by!(url: url)
-        next if web_page.fetched?
-
-        web_page.fetch_contents
-        sleep WAIT_TIME
+    if url_list.present?
+      urls = url_list.split
+      update!(total_count: urls.size)
+      urls.each { |url| safe_fetch(url) }
+    else
+      list_page_url = url
+      loop do
+        data = crawler.parse_list(list_page_url)
+        update!(total_count: data[:total_count])
+        data[:detail_page_urls].each { |url| safe_fetch(url) }
+        list_page_url = data[:next_page_url]
+        break unless list_page_url
       end
-      list_page_url = data[:next_page_url]
-      break unless list_page_url
     end
 
     completed!
     touch :completed_at
   rescue => e
-    binding.pry
     failed!
     update!(error_message: e.message)
   end
@@ -95,5 +103,14 @@ class CrawlerJob < ApplicationRecord
         end
       end
     end
+  end
+
+  def safe_fetch(url)
+    return if reload.canceled? # statusがcanceledなら停止
+    web_page = web_pages.find_or_create_by!(url: url)
+    return if web_page.fetched?
+
+    web_page.fetch_contents
+    sleep WAIT_TIME
   end
 end

@@ -9,7 +9,10 @@ h2 New Job
     = f.text_field :name, required: true, class: 'form-control'
   .form-group
     = f.label :url
-    = f.text_field :url, required: true, class: 'form-control'
+    = f.text_field :url, class: 'form-control'
+  .form-group
+    = f.label :url_list
+    = f.text_area :url_list, class: 'form-control'
 
   = f.submit 'Confirm', class: 'btn btn-light'
 

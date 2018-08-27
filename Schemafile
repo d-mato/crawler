@@ -16,7 +16,8 @@ create_table :crawler_jobs do |t|
   t.string :name, null: false, default: ''
   t.string :site, null: false
   t.string :status, null: false
-  t.text :url, null: false
+  t.text :url, null: false, default: ''
+  t.text :url_list, null: false, default: ''
   t.text :page_title, null: false, default: ''
   t.integer :total_count, null: false, default: 0
   t.text :error_message, null: false, default: ''

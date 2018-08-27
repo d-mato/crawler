@@ -56,6 +56,6 @@ class CrawlerJobsController < ApplicationController
   end
 
   def crawler_job_params
-    params.fetch(:crawler_job, {}).permit(:site, :name, :url, :page_title, :total_count)
+    params.fetch(:crawler_job, {}).permit!
   end
 end
