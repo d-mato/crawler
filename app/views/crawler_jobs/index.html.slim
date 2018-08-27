@@ -30,10 +30,10 @@ table.table.table-sm.table-striped
             = crawler_job.completed_at&.strftime('%F %H:%M')
           - if crawler_job.running?
             = crawler_job.remaining_time
-        td = link_to fa_icon('file'), [:export, crawler_job], data: { confirm: "CSVファイルをダウンロードします\n※時間がかかる場合があります" }, title: 'Download CSV' if crawler_job.completed?
-        td = link_to fa_icon('repeat'), [:restart, crawler_job], method: :post, data: { confirm: 'キャンセル済みのジョブを再開します' }, title: 'Restart' if crawler_job.canceled? || crawler_job.failed?
+        td = link_to fa_icon('file'), [:export, crawler_job], data: { confirm: "「#{crawler_job.name}」のCSVファイルをダウンロードします\n※時間がかかる場合があります" }, title: 'Download CSV' if crawler_job.completed?
+        td = link_to fa_icon('repeat'), [:restart, crawler_job], method: :post, data: { confirm: "キャンセル済みのジョブ「#{crawler_job.name}」を再開します" }, title: 'Restart' if crawler_job.canceled? || crawler_job.failed?
         td
           - if crawler_job.running?
-            = link_to fa_icon('ban'), [:cancel, crawler_job], method: :delete, data: { confirm: 'ジョブをキャンセルします' }, class: 'text-warning', title: 'Cancel'
+            = link_to fa_icon('ban'), [:cancel, crawler_job], method: :delete, data: { confirm: "ジョブ「#{crawler_job.name}」をキャンセルします" }, class: 'text-warning', title: 'Cancel'
           - else crawler_job.running?
-            = link_to fa_icon('times'), crawler_job, method: :delete, data: { confirm: '削除します' }, class: 'text-danger', title: 'Delete'
+            = link_to fa_icon('times'), crawler_job, method: :delete, data: { confirm: "「#{crawler_job.name}」を削除します" }, class: 'text-danger', title: 'Delete'

@@ -87,7 +87,8 @@ class CrawlerJob < ApplicationRecord
   end
 
   def export_csv
-    CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+    temp = Tempfile.create
+    CSV.open(temp.path, 'w', encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
       header = false
       web_pages.each.with_index do |web_page, index|
         result = { url: web_page.url }
@@ -103,6 +104,7 @@ class CrawlerJob < ApplicationRecord
         end
       end
     end
+    temp
   end
 
   def safe_fetch(url)

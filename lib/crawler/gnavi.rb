@@ -14,6 +14,7 @@ class Crawler::Gnavi
   def parse_detail(html_or_url)
     doc = Nokogiri.parse(detect_html(html_or_url))
     json = JSON.parse(doc.at('script[type="application/ld+json"]').text)
+    json = json.first if json.is_a? Array
     {
       name: json['name'],
       image: json['image'],
