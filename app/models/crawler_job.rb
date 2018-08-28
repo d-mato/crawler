@@ -90,7 +90,7 @@ class CrawlerJob < ApplicationRecord
     temp = Tempfile.create
     CSV.open(temp.path, 'w', encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
       header = false
-      web_pages.each.with_index do |web_page, index|
+      web_pages.find_each.with_index do |web_page, index|
         result = { url: web_page.url }
         begin
           result.merge! crawler.parse_detail(web_page.body)
