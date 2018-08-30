@@ -1,6 +1,7 @@
 require 'csv'
 
 class CrawlerJob < ApplicationRecord
+  class Cancel < StandardError; end
   WAIT_TIME = 10
 
   # belongs_to :user
@@ -81,6 +82,7 @@ class CrawlerJob < ApplicationRecord
 
     completed!
     touch :completed_at
+  rescue Cancel
   rescue => e
     failed!
     update!(error_message: e.message)
@@ -108,7 +110,7 @@ class CrawlerJob < ApplicationRecord
   end
 
   def safe_fetch(url)
-    return if reload.canceled? # statusがcanceledなら停止
+    raise Cancel if reload.canceled? # statusがcanceledなら停止
     web_page = web_pages.find_or_create_by!(url: url)
     return if web_page.fetched?
 
