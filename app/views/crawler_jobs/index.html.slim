@@ -2,6 +2,7 @@
   h2 Jobs
   = link_to fa_icon('plus-circle', text: 'New job'), new_crawler_job_path, class: 'btn btn-outline-primary btn-sm'
 
+= paginate @crawler_jobs
 table.table.table-sm.table-striped
   thead
     tr
@@ -37,3 +38,4 @@ table.table.table-sm.table-striped
             = link_to fa_icon('ban'), [:cancel, crawler_job], method: :delete, data: { confirm: "ジョブ「#{crawler_job.name}」をキャンセルします" }, class: 'text-warning', title: 'Cancel'
           - else crawler_job.running?
             = link_to fa_icon('times'), crawler_job, method: :delete, data: { confirm: "「#{crawler_job.name}」を削除します" }, class: 'text-danger', title: 'Delete'
+= paginate @crawler_jobs

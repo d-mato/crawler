@@ -2,7 +2,7 @@ class CrawlerJobsController < ApplicationController
   before_action :set_crawler_job, only: %i(export cancel restart destroy)
 
   def index
-    @crawler_jobs = CrawlerJob.order(created_at: :desc)
+    @crawler_jobs = CrawlerJob.order(created_at: :desc).page(params[:page]).per(50)
   end
 
   def new
