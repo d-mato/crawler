@@ -82,7 +82,7 @@ class CrawlerJob < ApplicationRecord
         update!(total_count: data[:total_count])
         data[:detail_page_urls].each { |url| safe_fetch(url) }
         list_page_url = data[:next_page_url]
-        break unless list_page_url
+        break if list_page_url.blank?
       end
     end
 
