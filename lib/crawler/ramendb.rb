@@ -33,6 +33,7 @@ class Crawler::Ramendb
       ratingValue: json.dig('aggregateRating', 'ratingValue'),
       reviewCount: json.dig('aggregateRating', 'reviewCount'),
       links: doc.css('#links > a').map { |a| a[:href] }.join("\n"),
+      closed: doc.title.start_with?('【閉店】'),
     }
   end
 end
