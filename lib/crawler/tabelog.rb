@@ -1,8 +1,8 @@
 class Crawler::Tabelog
   include Crawler::Common
 
-  def parse_list(html_or_url)
-    doc = Nokogiri.parse(detect_html(html_or_url))
+  def parse_list(url)
+    doc = Nokogiri.parse(open(Addressable::URI.parse(url).normalize.to_s).read)
     {
       title: doc.title,
       total_count: doc.at('.list-condition__count').text.to_i,
@@ -11,8 +11,8 @@ class Crawler::Tabelog
     }
   end
 
-  def parse_detail(html_or_url)
-    doc = Nokogiri.parse(detect_html(html_or_url))
+  def parse_detail(html)
+    doc = Nokogiri.parse(html)
     json = JSON.parse(doc.at('script[type="application/ld+json"]').text)
     {
       name: json['name'],

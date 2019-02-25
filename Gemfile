@@ -29,6 +29,7 @@ end
 
 gem 'activeadmin'
 gem 'active_decorator'
+gem 'addressable'
 gem 'bootstrap'
 gem 'coffee-rails'
 gem 'devise'
