@@ -3,7 +3,7 @@ h2 New Job
 = form_for [:confirm, @crawler_job], method: :post, html: { style: 'max-width: 400px;' } do |f|
   .form-group
     = f.label :site
-    = f.select :site, %w(tabelog gnavi), {}, class: 'form-control'
+    = f.select :site, %w(tabelog gnavi ramendb), {}, class: 'form-control'
   .form-group
     = f.label :name
     = f.text_field :name, required: true, class: 'form-control'

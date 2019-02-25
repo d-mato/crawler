@@ -2,6 +2,7 @@ require 'csv'
 
 class CrawlerJob < ApplicationRecord
   class Cancel < StandardError; end
+  class CrawlerNotFound < StandardError; end
   WAIT_TIME = 10
 
   # belongs_to :user
@@ -37,7 +38,12 @@ class CrawlerJob < ApplicationRecord
   end
 
   def crawler
-    @crawler ||= "crawler/#{site}".classify.constantize.new
+    case site
+    when 'tabelog' then Crawler::Tabelog.new
+    when 'gnavi' then Crawler::Gnavi.new
+    when 'ramendb' then Crawler::Ramendb.new
+    else raise CrawlerNotFound
+    end
   end
 
   def fetch_list_specs
