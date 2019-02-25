@@ -107,8 +107,9 @@ class CrawlerJob < ApplicationRecord
             header = true
           end
 
-          csv << result.values
-        rescue
+          csv << result.values.map { |v| v.to_s.encode(Encoding::SJIS, invalid: :replace, undef: :replace) }
+        rescue => e
+          Rails.logger.error e
         end
       end
     end
