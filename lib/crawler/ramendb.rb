@@ -3,7 +3,7 @@ class Crawler::Ramendb
 
   def parse_list(html_or_url)
     doc = Nokogiri.parse(detect_html(html_or_url))
-    base_uri = URI('https://ramendb.supleks.jp')
+    base_uri = 'https://ramendb.supleks.jp'
     if next_link = doc.at('.pages > a.next')
       next_page_url = (base_uri + next_link[:onclick].match(/href='(.+?)'/)[1]).to_s
     end
