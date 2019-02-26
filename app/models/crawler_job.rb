@@ -98,7 +98,7 @@ class CrawlerJob < ApplicationRecord
     temp = Tempfile.create
     CSV.open(temp.path, 'w', encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
       header = false
-      web_pages.select(:id, :url, :body).find_each(batch_size: 100) do |web_page|
+      web_pages.find_each(batch_size: 100) do |web_page|
         result = { url: web_page.url }
         begin
           result.merge! crawler.parse_detail(web_page.body)
