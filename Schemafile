@@ -16,11 +16,11 @@ create_table :crawler_jobs, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLL
   t.string :name, null: false, default: ''
   t.string :site, null: false
   t.string :status, null: false
-  t.text :url, null: false, default: ''
-  t.text :url_list, null: false, default: ''
-  t.text :page_title, null: false, default: ''
+  t.text :url, null: false
+  t.text :url_list, null: false
+  t.text :page_title, null: false
   t.integer :total_count, null: false, default: 0
-  t.text :error_message, null: false, default: ''
+  t.text :error_message, null: false
   t.datetime :started_at
   t.datetime :completed_at
   t.timestamps null: false
@@ -29,11 +29,11 @@ end
 create_table :web_pages, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   t.integer :crawler_job_id, null: false
   t.text :url, null: false
-  t.text :body, null: false, default: ''
-  t.text :error_message, null: false, default: ''
+  t.longtext :body, null: false
+  t.text :error_message, null: false
   t.datetime :fetched_at
   t.timestamps null: false
 
   t.index :crawler_job_id
-  t.index [:crawler_job_id, :url], unique: true
+  t.index [:crawler_job_id, :url], unique: true, length: { url: 255 }
 end
