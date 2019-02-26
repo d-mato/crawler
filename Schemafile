@@ -1,4 +1,4 @@
-create_table :users do |t|
+create_table :users, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   t.string :email, null: false
   t.string :encrypted_password, null: false, default: ''
   t.integer  :sign_in_count, null: false, default: 0
@@ -11,7 +11,7 @@ create_table :users do |t|
   t.index :email, unique: true
 end
 
-create_table :crawler_jobs do |t|
+create_table :crawler_jobs, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   # t.integer :user_id, null: false
   t.string :name, null: false, default: ''
   t.string :site, null: false
@@ -26,7 +26,7 @@ create_table :crawler_jobs do |t|
   t.timestamps null: false
 end
 
-create_table :web_pages do |t|
+create_table :web_pages, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   t.integer :crawler_job_id, null: false
   t.text :url, null: false
   t.text :body, null: false, default: ''
