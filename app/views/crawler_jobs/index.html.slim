@@ -20,7 +20,7 @@ table.table.table-sm.table-striped
   tbody
     - @crawler_jobs.each do |crawler_job|
       tr
-        td = crawler_job.name
+        td = link_to crawler_job.name, crawler_job
         td = crawler_job.site
         td = link_to crawler_job.url.truncate(20), crawler_job.url, title: crawler_job.url, target: '_blank', rel: 'noreferrer'
         td = crawler_job.status_label title: crawler_job.error_message

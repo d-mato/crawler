@@ -1,0 +1,8 @@
+h2 #{@crawler_job.name}
+
+dl
+  - @crawler_job.attributes.each do |attr_name, value|
+    dt #{CrawlerJob.human_attribute_name(attr_name)}
+    dd #{value}
+
+= link_to 'Back', crawler_jobs_path
