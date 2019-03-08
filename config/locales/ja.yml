@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    model:
+    attributes:
+      crawler_job:
+        url_list: URLリスト

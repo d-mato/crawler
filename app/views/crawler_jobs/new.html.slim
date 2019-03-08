@@ -1,18 +1,10 @@
 h2 New Job
 
-= form_for [:confirm, @crawler_job], method: :post, html: { style: 'max-width: 400px;' } do |f|
-  .form-group
-    = f.label :site
-    = f.select :site, %w(tabelog gnavi ramendb), {}, class: 'form-control'
-  .form-group
-    = f.label :name
-    = f.text_field :name, required: true, class: 'form-control'
-  .form-group
-    = f.label :url
-    = f.text_field :url, class: 'form-control'
-  .form-group
-    = f.label :url_list
-    = f.text_area :url_list, class: 'form-control'
+= bootstrap_form_for [:confirm, @crawler_job], method: :post, html: { style: 'max-width: 400px;' } do |f|
+  = f.select :site, %w(tabelog gnavi ramendb)
+  = f.text_field :name, required: true
+  = f.text_field :url
+  = f.text_area :url_list
 
   = f.submit 'Confirm', class: 'btn btn-light'
 
