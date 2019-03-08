@@ -1,6 +1,8 @@
 class WebPage < ApplicationRecord
   belongs_to :crawler_job
 
+  has_one_attached :html
+
   def fetched?
     fetched_at? && body.present?
   end
