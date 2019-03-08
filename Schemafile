@@ -51,6 +51,7 @@ end
 create_table :web_pages, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   t.integer :crawler_job_id, null: false
   t.text :url, null: false
+  # TODO: active storageに移行したので消してOK
   t.longtext :body, null: false
   t.text :error_message, null: false
   t.datetime :fetched_at

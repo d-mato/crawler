@@ -4,12 +4,11 @@ class WebPage < ApplicationRecord
   has_one_attached :html
 
   def fetched?
-    fetched_at? && body.present?
+    fetched_at? && html.attached?
   end
 
   def fetch_contents
-    body = open(url).read.force_encoding('UTF-8')
-    update!(body: body)
+    html.attach(io: open(url), filename: 'html')
     touch :fetched_at
   rescue => e
     update!(error_message: e.message)

@@ -98,10 +98,10 @@ class CrawlerJob < ApplicationRecord
     temp = Tempfile.create
     CSV.open(temp.path, 'w', encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
       header = false
-      web_pages.find_each(batch_size: 100) do |web_page|
+      web_pages.with_attached_html.find_each(batch_size: 100) do |web_page|
         result = { url: web_page.url }
         begin
-          result.merge! crawler.parse_detail(web_page.body)
+          result.merge! crawler.parse_detail(web_page.html.download)
           unless header
             csv << result.keys
             header = true
