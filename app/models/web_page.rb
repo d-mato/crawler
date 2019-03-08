@@ -12,4 +12,19 @@ class WebPage < ApplicationRecord
   rescue => e
     update!(error_message: e.message)
   end
+
+  # @override
+  def inspect
+    inspection = if defined?(@attributes) && @attributes
+      self.class.attribute_names.collect do |name|
+        if has_attribute?(name)
+          "#{name}: #{attribute_for_inspect(name)}"
+        end
+      end.compact.join(", ")
+    else
+      "not initialized"
+    end
+
+    "#<#{self.class} #{inspection}>"
+  end
 end
