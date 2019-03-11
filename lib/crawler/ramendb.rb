@@ -24,7 +24,7 @@ class Crawler::Ramendb
     {
       name: json['name'],
       image: json['image'],
-      postalCode: json.dig('address', 'postalCode'),
+      postalCode: doc.at("[itemprop='address']")&.text.to_s[/〒(\d{3}-\d{4})/,1], # ld+jsonには空文字しか入ってないのでページ内から取る
       addressRegion: json.dig('address', 'addressRegion'),
       addressLocality: json.dig('address', 'addressLocality'),
       streetAddress: json.dig('address', 'streetAddress'),
