@@ -42,6 +42,7 @@ class CrawlerJob < ApplicationRecord
     when 'tabelog' then Crawler::Tabelog.new
     when 'gnavi' then Crawler::Gnavi.new
     when 'ramendb' then Crawler::Ramendb.new
+    when 'cookbiz_company' then Crawler::CookbizCompany.new
     else raise CrawlerNotFound
     end
   end

@@ -1,5 +1,3 @@
-require 'addressable/uri'
-
 class Crawler::Ramendb
   include Crawler::Common
 
