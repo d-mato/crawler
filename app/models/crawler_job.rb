@@ -97,7 +97,8 @@ class CrawlerJob < ApplicationRecord
 
   def export_csv
     temp = Tempfile.create
-    CSV.open(temp.path, 'w', encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+    temp << "\xEF\xBB\xBF"
+    CSV.open(temp.path, 'a') do |csv|
       header = false
       web_pages.with_attached_html.find_each(batch_size: 100) do |web_page|
         result = { url: web_page.url }
@@ -108,7 +109,7 @@ class CrawlerJob < ApplicationRecord
             header = true
           end
 
-          csv << result.values.map { |v| v.to_s.encode(Encoding::SJIS, invalid: :replace, undef: :replace) }
+          csv << result.values.map { |v| v.to_s }
         rescue => e
           Rails.logger.error e
         end
