@@ -14,7 +14,7 @@ class Crawler::CookbizCompany
 
   def parse_detail(html)
     column_names = %w[企業名 代表者 業種／業態 事業内容 設立 資本金 従業員数 売上高 事業所 URL]
-    data = {}
+    data = column_names.map { |name| [name, nil] }.to_h
 
     doc = Nokogiri.parse(html)
     doc.css('.job-company-info-table tr').each do |tr|
