@@ -27,7 +27,6 @@ class CrawlerJob < ApplicationRecord
 
   validates :site, presence: true
   validates :name, presence: true
-  validates :url, format: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true
   validate do
     errors[:base] << 'URLとURLリストのどちらかを入力してください' if url.blank? && url_list.blank?
   end
