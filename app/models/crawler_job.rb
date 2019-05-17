@@ -96,24 +96,25 @@ class CrawlerJob < ApplicationRecord
 
   def export_csv
     temp = Tempfile.create
-    temp << "\xEF\xBB\xBF"
-    CSV.open(temp.path, 'a') do |csv|
+    temp << CSV.generate("\xEF\xBB\xBF") do |rows|
       header = false
       web_pages.with_attached_html.find_each(batch_size: 100) do |web_page|
         result = { url: web_page.url }
         begin
           result.merge! crawler.parse_detail(web_page.html.download)
           unless header
-            csv << result.keys
+            rows << result.keys
             header = true
           end
 
-          csv << result.values.map { |v| v.to_s }
+          rows << result.values.map { |v| v.to_s }
         rescue => e
           Rails.logger.error e
         end
       end
     end
+
+    temp.rewind
     temp
   end
 

@@ -32,7 +32,7 @@ class CrawlerJobsController < ApplicationController
   def export
     filename = "#{@crawler_job.name}_#{@crawler_job.completed_at.strftime('%Y%m%d%H%M%S')}.csv"
     csv = @crawler_job.export_csv
-    send_file csv.path, filename: filename, type: 'text/csv; charset=shift_jis'
+    send_file csv.path, filename: filename, type: 'text/csv; charset=utf-8'
   end
 
   def cancel
