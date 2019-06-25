@@ -1,8 +1,13 @@
 class ApplicationController < ActionController::Base
-  # before_action :authenticate_user!
-  before_action do
-    authenticate_or_request_with_http_basic do |user, pass|
-      user == Rails.application.credentials.basic_auth_user && pass == Rails.application.credentials.basic_auth_password
-    end
+  def authenticate_user!
+    redirect_to '/auth/google_oauth2' unless current_user
+  end
+
+  def sign_in(user)
+    session[:user_id] = user.id
+  end
+
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
   end
 end

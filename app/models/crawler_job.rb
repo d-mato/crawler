@@ -5,7 +5,7 @@ class CrawlerJob < ApplicationRecord
   class CrawlerNotFound < StandardError; end
   WAIT_TIME = 10
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :web_pages, dependent: :destroy
 
   enum status: %w[waiting running canceled failed completed].map { |v| [v, v] }.to_h

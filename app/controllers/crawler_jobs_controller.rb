@@ -1,4 +1,5 @@
 class CrawlerJobsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_crawler_job, only: %i(show export cancel restart destroy)
 
   def index
@@ -24,6 +25,7 @@ class CrawlerJobsController < ApplicationController
 
   def create
     @crawler_job = CrawlerJob.new(crawler_job_params)
+    @crawler_job.user = current_user
     @crawler_job.save!
     ExecuteCrawlerJob.perform_later(@crawler_job.id)
     redirect_to crawler_jobs_path, notice: 'ジョブを作成しました'
