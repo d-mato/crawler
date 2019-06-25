@@ -22,19 +22,14 @@ end
 
 create_table :users, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
   t.string :email, null: false
-  t.string :encrypted_password, null: false, default: ''
-  t.integer  :sign_in_count, null: false, default: 0
-  t.datetime :current_sign_in_at
-  t.datetime :last_sign_in_at
-  t.string   :current_sign_in_ip
-  t.string   :last_sign_in_ip
+  t.string :name, default: '', null: false
   t.timestamps null: false
 
   t.index :email, unique: true
 end
 
 create_table :crawler_jobs, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
-  # t.integer :user_id, null: false
+  t.references :user
   t.string :name, null: false, default: ''
   t.string :site, null: false
   t.string :status, null: false
