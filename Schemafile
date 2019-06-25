@@ -42,7 +42,7 @@ create_table :crawler_jobs, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLL
 end
 
 create_table :web_pages, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC' do |t|
-  t.integer :crawler_job_id, null: false
+  t.references :crawler_job, null: false
   t.text :url, null: false
   # TODO: active storageに移行したので消してOK
   t.longtext :body, null: false
@@ -50,6 +50,5 @@ create_table :web_pages, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE
   t.datetime :fetched_at
   t.timestamps null: false
 
-  t.index :crawler_job_id
   t.index [:crawler_job_id, :url], unique: true, length: { url: 255 }
 end
