@@ -27,12 +27,10 @@ group :development do
   gem 'capistrano3-ridgepole'
 end
 
-gem 'activeadmin'
 gem 'active_decorator'
 gem 'addressable'
 gem 'bootstrap'
 gem 'bootstrap_form'
-gem 'coffee-rails'
 gem 'font-awesome-rails'
 gem 'kaminari'
 gem 'nokogiri'
