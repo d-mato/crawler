@@ -35,6 +35,7 @@ create_table :crawler_jobs, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLL
   t.text :url_list, null: false
   t.text :page_title, null: false
   t.integer :total_count, null: false, default: 0
+  t.integer :web_pages_count, null: false, default: 0
   t.text :error_message, null: false
   t.datetime :started_at
   t.datetime :completed_at

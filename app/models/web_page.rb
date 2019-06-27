@@ -1,5 +1,5 @@
 class WebPage < ApplicationRecord
-  belongs_to :crawler_job
+  belongs_to :crawler_job, counter_cache: :web_pages_count
 
   has_one_attached :html
 
