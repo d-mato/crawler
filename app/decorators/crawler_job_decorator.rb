@@ -13,6 +13,6 @@ module CrawlerJobDecorator
 
   def remaining_time
     return '' unless running?
-    content_tag :i, "#{1 + (total_count - current_count) * CrawlerJob::WAIT_TIME / 60} minutes later"
+    content_tag :i, "#{1 + (total_count - web_pages_count) * CrawlerJob::WAIT_TIME / 60} minutes later"
   end
 end

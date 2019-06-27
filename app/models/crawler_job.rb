@@ -63,11 +63,6 @@ class CrawlerJob < ApplicationRecord
     false
   end
 
-  # alias_method では置き換えられない
-  def current_count
-    web_pages_count
-  end
-
   def execute_crawling
     running!
     touch :started_at
