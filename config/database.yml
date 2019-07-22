@@ -17,3 +17,6 @@ test:
 production:
   <<: *default
   database: crawler_production
+  # FIXME: デプロイ時にridgepoleがRailsをloadしてないためこうしているが、どうにかしたい
+  url: <%= YAML.load(`rails credentials:show`)['database_url'] %>
+
