@@ -42,6 +42,7 @@ class CrawlerJob < ApplicationRecord
     when 'gnavi' then Crawler::Gnavi.new
     when 'ramendb' then Crawler::Ramendb.new
     when 'cookbiz_company' then Crawler::CookbizCompany.new
+    when 'ikyu_restaurant' then Crawler::IkyuRestaurant.new
     else raise CrawlerNotFound
     end
   end
@@ -116,7 +117,7 @@ class CrawlerJob < ApplicationRecord
 
   def safe_fetch(url)
     raise Cancel if reload.canceled? # statusがcanceledなら停止
-    web_page = web_pages.find_or_create_by!(url: url)
+    web_page = web_pages.find_or_create_by!(url: url.to_s)
     return if web_page.fetched?
 
     web_page.fetch_contents

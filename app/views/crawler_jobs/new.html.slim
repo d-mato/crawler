@@ -1,7 +1,7 @@
 h2 New Job
 
 = bootstrap_form_for [:confirm, @crawler_job], method: :post, html: { style: 'max-width: 400px;' } do |f|
-  = f.select :site, %w(tabelog gnavi ramendb cookbiz_company)
+  = f.select :site, %w(tabelog gnavi ramendb cookbiz_company ikyu_restaurant)
   = f.text_field :name, required: true
   = f.text_field :url
   = f.text_area :url_list
