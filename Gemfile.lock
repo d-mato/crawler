@@ -224,7 +224,7 @@ GEM
     redis (4.1.2)
     redis-namespace (1.6.0)
       redis (>= 3.0.4)
-    ridgepole (0.8.4)
+    ridgepole (0.8.5)
       activerecord (>= 5.0.1, < 6.1)
       diffy
     sass-rails (6.0.0)
