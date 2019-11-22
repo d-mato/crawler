@@ -44,6 +44,7 @@ class CrawlerJob < ApplicationRecord
     when 'cookbiz_company' then Crawler::CookbizCompany.new
     when 'ikyu_restaurant' then Crawler::IkyuRestaurant.new
     when 'tokyo_tenryu' then Crawler::TokyoTenryu.new
+    when 'gopan_house' then Crawler::GopanHouse.new
     else raise CrawlerNotFound
     end
   end
