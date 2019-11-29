@@ -2,5 +2,5 @@ require 'open-uri'
 require 'nokogiri'
 require 'addressable/uri'
 
-module Crawler::Common
+module Crawlers::Common
 end

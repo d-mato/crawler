@@ -1,5 +1,5 @@
-class Crawler::TokyoTenryu
-  include Crawler::Common
+class Crawlers::TokyoTenryu
+  include Crawlers::Common
 
   def parse_list(url)
     doc = Nokogiri.parse(open(Addressable::URI.parse(url)).read)

@@ -1,5 +1,5 @@
-class Crawler::GopanHouse
-  include Crawler::Common
+class Crawlers::GopanHouse
+  include Crawlers::Common
 
   def parse_list(url)
     doc = Nokogiri.parse(open(Addressable::URI.parse(url)).read)

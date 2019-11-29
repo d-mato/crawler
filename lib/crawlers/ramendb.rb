@@ -1,5 +1,5 @@
-class Crawler::Ramendb
-  include Crawler::Common
+class Crawlers::Ramendb
+  include Crawlers::Common
 
   def parse_list(url)
     doc = Nokogiri.parse(open(Addressable::URI.parse(url).normalize.to_s).read)

@@ -37,16 +37,8 @@ class CrawlerJob < ApplicationRecord
   end
 
   def crawler
-    case site
-    when 'tabelog' then Crawler::Tabelog.new
-    when 'gnavi' then Crawler::Gnavi.new
-    when 'ramendb' then Crawler::Ramendb.new
-    when 'cookbiz_company' then Crawler::CookbizCompany.new
-    when 'ikyu_restaurant' then Crawler::IkyuRestaurant.new
-    when 'tokyo_tenryu' then Crawler::TokyoTenryu.new
-    when 'gopan_house' then Crawler::GopanHouse.new
-    else raise CrawlerNotFound
-    end
+    klass = Crawlers::LIST[site.to_s.to_sym] || raise(CrawlerNotFound)
+    klass.new
   end
 
   def fetch_list_specs
