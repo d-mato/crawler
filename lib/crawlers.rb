@@ -7,5 +7,6 @@ module Crawlers
     ikyu_restaurant: Crawlers::IkyuRestaurant,
     tokyo_tenryu: Crawlers::TokyoTenryu,
     gopan_house: Crawlers::GopanHouse,
+    j_group: Crawlers::JGroup,
   }
 end
