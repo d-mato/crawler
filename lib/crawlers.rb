@@ -8,5 +8,6 @@ module Crawlers
     tokyo_tenryu: Crawlers::TokyoTenryu,
     gopan_house: Crawlers::GopanHouse,
     j_group: Crawlers::JGroup,
+    green: Crawlers::Green,
   }
 end
