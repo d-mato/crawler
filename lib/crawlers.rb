@@ -9,5 +9,6 @@ module Crawlers
     gopan_house: Crawlers::GopanHouse,
     j_group: Crawlers::JGroup,
     green: Crawlers::Green,
+    inshokuten_com: Crawlers::InshokutenCom,
   }
 end
