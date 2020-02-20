@@ -5,7 +5,7 @@ class Crawlers::Ramendb
     doc = Nokogiri.parse(open(Addressable::URI.parse(url).normalize.to_s).read)
     base_uri = 'https://ramendb.supleks.jp'
     if next_link = doc.at('.pages > a.next')
-      next_page_url = (base_uri + next_link[:onclick].match(/href='(.+?)'/)[1]).to_s
+      next_page_url = base_uri + next_link[:href]
     end
 
     {
