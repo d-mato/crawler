@@ -1,5 +1,3 @@
-lock '~> 3.11.0'
-
 set :application, 'crawler'
 set :repo_url, 'git@github.com:d-mato/crawler.git'
 set :deploy_to, '/home/ec2-user/crawler'
