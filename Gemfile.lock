@@ -99,7 +99,7 @@ GEM
     capistrano3-ridgepole (0.0.4)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
-    connection_pool (2.2.2)
+    connection_pool (2.2.3)
     crass (1.0.6)
     diffy (3.3.0)
     erubi (1.9.0)
@@ -183,7 +183,7 @@ GEM
     public_suffix (4.0.5)
     puma (4.3.3)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
@@ -237,11 +237,11 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sidekiq (6.0.7)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 2.0.0)
-      redis (>= 4.1.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     slack-notifier (2.3.2)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -308,7 +308,7 @@ DEPENDENCIES
   redis-namespace
   ridgepole
   sass-rails (~> 6.0)
-  sidekiq
+  sidekiq (~> 5)
   slack-notifier
   slim-rails
   tzinfo-data
