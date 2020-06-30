@@ -5,7 +5,7 @@ class Crawlers::Tabelog
     doc = Nokogiri.parse(open(Addressable::URI.parse(url).normalize.to_s).read)
     {
       title: doc.title,
-      total_count: doc.at('.list-condition__count').text.to_i,
+      total_count: doc.at('.c-page-count__num:last-child').text.to_i,
       detail_page_urls: doc.css('.list-rst__rst-name a.list-rst__rst-name-target').map { |a| a[:href] },
       next_page_url: doc.at('.c-pagination__item:last a').try!(:[], :href)
     }
