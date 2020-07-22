@@ -184,8 +184,6 @@ GEM
     puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.3)
-    rack-protection (2.0.8.1)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.3)
@@ -221,7 +219,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.1.4)
+    redis (4.2.1)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
     ridgepole (0.8.7)
@@ -237,11 +235,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.1.1)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
+      redis (>= 4.2.0)
     slack-notifier (2.3.2)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -308,7 +305,7 @@ DEPENDENCIES
   redis-namespace
   ridgepole
   sass-rails (~> 6.0)
-  sidekiq (~> 5)
+  sidekiq (~> 6)
   slack-notifier
   slim-rails
   tzinfo-data
