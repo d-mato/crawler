@@ -11,5 +11,6 @@ module Crawlers
     green: Crawlers::Green,
     inshokuten_com: Crawlers::InshokutenCom,
     townwork: Crawlers::Townwork,
+    doda: Crawlers::Doda,
   }
 end
