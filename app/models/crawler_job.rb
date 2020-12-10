@@ -114,7 +114,12 @@ class CrawlerJob < ApplicationRecord
     web_page = web_pages.find_or_create_by!(url: url.to_s)
     return if web_page.fetched?
 
-    web_page.fetch_contents
+    fetch_options = {}
+    if crawler.user_agent.present?
+      fetch_options['User-Agent'] = crawler.user_agent
+    end
+
+    web_page.fetch_contents(fetch_options)
     sleep WAIT_TIME
   end
 end

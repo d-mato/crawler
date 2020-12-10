@@ -7,8 +7,8 @@ class WebPage < ApplicationRecord
     fetched_at? && html.attached?
   end
 
-  def fetch_contents
-    html.attach(io: open(url), filename: 'html')
+  def fetch_contents(fetch_options)
+    html.attach(io: open(url, fetch_options), filename: 'html')
     touch :fetched_at
   rescue => e
     update!(error_message: e.message)
