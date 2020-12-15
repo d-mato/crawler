@@ -29,6 +29,7 @@ end
 
 gem 'active_decorator'
 gem 'addressable'
+gem 'aws-sdk-s3'
 gem 'bootstrap'
 gem 'bootstrap_form'
 gem 'exception_notification'
