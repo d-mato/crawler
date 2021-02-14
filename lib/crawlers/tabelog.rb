@@ -14,23 +14,24 @@ class Crawlers::Tabelog
   def parse_detail(html)
     doc = Nokogiri.parse(html)
     json = JSON.parse(doc.at('script[type="application/ld+json"]').text)
+    restaurant = json[0]
     {
-      name: json['name'],
-      image: json['image'],
-      postalCode: json.dig('address', 'postalCode'),
-      addressRegion: json.dig('address', 'addressRegion'),
-      addressLocality: json.dig('address', 'addressLocality'),
-      streetAddress: json.dig('address', 'streetAddress'),
-      telephone: json['telephone'],
-      priceRange: json['priceRange'],
-      servesCuisine: json['servesCuisine'],
-      ratingCount: json.dig('aggregateRating', 'ratingCount'),
-      ratingValue: json.dig('aggregateRating', 'ratingValue'),
-      seatCount: doc.css('th').find { |el| el.text.strip == '席数' }&.next_element&.text&.slice(/(\d+)席/, 1),
-      regularHoliday: doc.at('#short-comment')&.text.strip,
-      openingHours: doc.css('th').find { |el| el.text.strip == '営業時間' }&.next_element&.text&.strip,
+      name: restaurant['name'],
+      image: restaurant['image'],
+      postalCode: restaurant.dig('address', 'postalCode'),
+      addressRegion: restaurant.dig('address', 'addressRegion'),
+      addressLocality: restaurant.dig('address', 'addressLocality'),
+      streetAddress: restaurant.dig('address', 'streetAddress'),
+      telephone: restaurant['telephone'],
+      priceRange: restaurant['priceRange'],
+      servesCuisine: restaurant['servesCuisine'],
+      ratingCount: restaurant.dig('aggregateRating', 'ratingCount'),
+      ratingValue: restaurant.dig('aggregateRating', 'ratingValue'),
+      seatCount: doc.at('//th[.="席数"]/following-sibling::td')&.text&.slice(/(\d+)席/, 1),
+      regularHoliday: doc.at('#short-comment')&.text&.strip,
+      openingHours: doc.at('//th[.="営業時間・定休日"]/following-sibling::td')&.text&.strip,
       openingDay: doc.at('.rstinfo-opened-date')&.text&.strip,
-      lunchTimeOpened: doc.css('i').find { |el| el.text.strip == '昼の予算' }.present?
+      lunchTimeOpened: doc.at('//i[.="昼の予算"]').present?
     }
   end
 end
