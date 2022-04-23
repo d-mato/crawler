@@ -1,6 +1,7 @@
 default: &default
   adapter: mysql2
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: 127.0.0.1
   username: root
   charset: utf8mb4
   collation: utf8mb4_bin
@@ -19,4 +20,3 @@ production:
   database: crawler_production
   # FIXME: デプロイ時にridgepoleがRailsをloadしてないためこうしているが、どうにかしたい
   url: <%= YAML.load(`rails credentials:show`)['database_url'] %>
-
