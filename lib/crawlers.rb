@@ -10,6 +10,7 @@ module Crawlers
     j_group: Crawlers::JGroup,
     green: Crawlers::Green,
     inshokuten_com: Crawlers::InshokutenCom,
+    inshokuten_com_pickup: Crawlers::InshokutenComPickup,
     townwork: Crawlers::Townwork,
     doda: Crawlers::Doda,
   }
