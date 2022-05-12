@@ -4,7 +4,7 @@ class Crawlers::InshokutenCom
   def parse_list(url)
     doc = Nokogiri.parse(open(Addressable::URI.parse(url)).read)
     base_uri = URI('https://job.inshokuten.com')
-    next_page_path = doc.at('a.next-link').try!(:[], :href)
+    next_page_path = doc.at('.paging a[rel="next"]').try!(:[], :href)
     {
       title: doc.title,
       total_count: doc.at('.search-shop-number').text.to_i,
